@@ -1,0 +1,31 @@
+group 'acacia.rest.api.testing'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    maven {
+        url 'http://artifactory-slc.oraclecorp.com/artifactory/fmw-virtual'
+    }
+    maven {
+        url 'https://artifactory-slc.oraclecorp.com/artifactory/soa-di-release-local'
+    }
+    maven {
+        url 'https://artifactory-slc.oraclecorp.com/artifactory/thirdparty-dev-local'
+    }
+}
+
+dependencies {
+    compile (
+            'com.jayway.restassured:rest-assured:2.8.0',
+            'org.testng:testng:6.1.1', 
+            'log4j:log4j:1.2.17',
+            'org.slf4j:slf4j-simple:1.6.1'
+            )
+}
+
+
+
+
