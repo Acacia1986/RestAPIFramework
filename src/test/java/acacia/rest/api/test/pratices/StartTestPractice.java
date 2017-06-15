@@ -1,12 +1,16 @@
 package acacia.rest.api.test.pratices;
 
 import acacia.rest.api.common.util.Configuration;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.response.Header;
-import com.jayway.restassured.response.Response;
+import io.restassured.RestAssured;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created by miaomiao on 6/14/2017.
@@ -40,6 +44,7 @@ public class StartTestPractice {
         //Response response = RestAssured.given().contentType("application/json").post(url);
         //Response response = RestAssured.given().contentType("application/json").log().all().urlEncodingEnabled(false).post(url);
         Response response = RestAssured.given().contentType("application/json").post(url);
+        //Compare with every command.
         System.out.println("Response is:\n" + response.getStatusCode());
         response.getBody().prettyPrint();
     }
@@ -63,7 +68,80 @@ public class StartTestPractice {
     @Test
     public void test_6(){
         String url = base_url + "/dfml/service/lambdaApps";
-        RestAssured.when().get(url).then().assertThat().statusCode(404).and().assertThat().
+        RestAssured.when().get(url).then().assertThat().statusCode(404);
+        Response response = RestAssured.when().get(url);
+        response.getBody().htmlPath().getNode("title").equals("Grizzly 2.3.23");
+        response.getBody().prettyPrint();
+    }
+
+    @Test
+    public void test_7(){
+        String url = base_url + CATALOG_SEARCH_SERVICE;
+        Response response = RestAssured.given().contentType("application/json").when().post(url);
+        response.getBody().prettyPrint();
+        Collection<String> collection = response.getCookies().values();
+
+        while (collection.iterator().hasNext()) {
+            System.out.println(collection.iterator().next());
+        }
+        //response.getCookie("ELOQUA").isEmpty();
+    }
+
+    @Test
+    public void test_8(){
+        String url = base_url + "/dfml/service/lambdaApps";
+        Response response = RestAssured.given().log().all().parameter("username","tester").when().get(url);
+        response.getBody().prettyPrint();
+        Map<String,String> cookies = response.getCookies();
+        System.out.println(cookies);
+
+    }
+
+    @Test
+    public void test_9(){
+        String url = base_url + "/dfml/service/lambdaApps";
+        Response response = RestAssured.given().log().all().cookie("test","qa").when().get(url);
+        response.getBody().prettyPrint();
+    }
+
+    @Test
+    public void test_10(){
+        String url = base_url + CATALOG_SEARCH_SERVICE;
+        Response response = RestAssured.given().log().all().contentType("application/json").post(url);
+        response.then().body("took",equalTo(1));
+//                RestAssured.given().log().all().contentType("application/json").post(url).
+//                then().body("total",equalTo(5));
+        response.getBody().prettyPrint();
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        response.prettyPrint();
+        System.out.println("################################");
+        response.body().prettyPeek();
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        response.body().print();
+        System.out.println("***************************");
+        response.print();
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        response.body().prettyPrint();
+    }
+
+
+    @Test
+    public void test_11(){
+        String url = base_url + CATALOG_SEARCH_SERVICE;
+        Response response = RestAssured.given().log().all().contentType("application/json").post(url);
+        response.then().body("_shards.total",equalTo(5));
+        String body = response.getBody().toString();
+        String cookies = response.getCookies().toString();
+        String body_1 = response.body().toString();
+        System.out.println("Body 1 is : " + body_1 );
+        System.out.println("Body is :" + body);
+        Boolean b = body.equalsIgnoreCase(body_1);
+        Boolean a  = body == body_1;
+        System.out.println("Equals or not " + b);
+        System.out.println("Equals with == like:" + a);
+        System.err.println("This equals error: " + body == body_1);
+        System.err.println("This is a test: " + false);
+        System.out.println("Cookies is : " + cookies);
     }
 
 

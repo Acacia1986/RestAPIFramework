@@ -19,10 +19,13 @@ repositories {
 
 dependencies {
     compile (
-            'com.jayway.restassured:rest-assured:2.8.0',
+
             'org.testng:testng:6.1.1', 
             'log4j:log4j:1.2.17',
-            'org.slf4j:slf4j-simple:1.6.1'
+            'org.slf4j:slf4j-simple:1.6.1',
+            "io.rest-assured:rest-assured:3.0.0",
+            "io.rest-assured:json-path:3.0.0",
+            "io-rest-assured:xml-path:3.0.0"
             )
 }
 
