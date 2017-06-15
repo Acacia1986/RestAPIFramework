@@ -3,11 +3,13 @@ package acacia.rest.api.test.pratices;
 import acacia.rest.api.common.util.Configuration;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -117,6 +119,9 @@ public class StartTestPractice {
         System.out.println("################################");
         response.body().prettyPeek();
         System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        Boolean b = response.body().prettyPeek().path("hits.total").equals(2);
+        System.out.println("B is : " + b);
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         response.body().print();
         System.out.println("***************************");
         response.print();
@@ -143,6 +148,52 @@ public class StartTestPractice {
         System.err.println("This is a test: " + false);
         System.out.println("Cookies is : " + cookies);
     }
+
+    @Test
+    public void test_12() {
+        String url = base_url + "/dfml/service/lambdaApps";
+        Response response = RestAssured.given().log().all().head(url);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
+        response.prettyPrint();
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
+        Headers headers = response.getHeaders();
+        System.out.println("size is : " + headers.size());
+        Header header = headers.iterator().next();
+        for (Header h: headers) {
+            System.out.format("Head name is %s, Head value is %s\n",header.getName(),header.getValue());
+        }
+    }
+
+    @Test
+    public void test_13(){
+        String url = base_url + "/dfml/service/lambdaApps";
+        Response response = RestAssured.given().log().all().header("Date","2016-2-2").get(url);
+        response.body().prettyPrint();
+        Headers headers = response.getHeaders();
+        for (Header h: headers){
+            System.out.format("Header name is %s, Header value is %s\n",h.getName(),h.getValue());
+        }
+
+    }
+
+    @Test
+    public void test_14(){
+        String url = base_url + "/dfml/service/lambdaApps";
+        Response response = RestAssured.given().log().all().headers("Accept-Language","en").get(url);
+        response.body().prettyPrint();
+        Headers headers = response.getHeaders();
+        Iterator<Header> iterable = headers.iterator();
+        while (iterable.hasNext()){
+          Header header = iterable.next();
+            System.out.format("Header name is %s, Header value is %s\n",header.getName(),header.getValue());
+        }
+
+
+
+
+
+    }
+
 
 
 }
