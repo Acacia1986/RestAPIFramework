@@ -6,7 +6,6 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,6 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
  * Created by miaomiao on 6/14/2017.
  */
 public class StartTestPractice {
+
     public final String Host_URL = Configuration.getValue("Host", "bej301748.cn.oracle.com:");
     public final String PORT = Configuration.getValue("Port", "5001");
     public final String PROTOCOL = Configuration.getValue("protocol", "http://");
