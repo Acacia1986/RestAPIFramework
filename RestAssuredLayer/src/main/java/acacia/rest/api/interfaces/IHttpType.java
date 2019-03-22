@@ -1,5 +1,6 @@
 package acacia.rest.api.interfaces;
 
+import acacia.rest.api.implement.response.ResponseType;
 import io.restassured.response.Response;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public interface IHttpType {
      * @param params
      * @return
      */
-    Response GetRequestWithQueryPara(String URL, HashMap<String,String> params);
+    ResponseType GetRequestWithQueryPara(String URL, HashMap<String,String> params);
 
     /**
      * HTTP Post method
@@ -24,7 +25,7 @@ public interface IHttpType {
      * @param params
      * @return
      */
-    Response PostRequestWithQueryPara(String URL,HashMap<String,String> params);
+    ResponseType PostRequestWithQueryPara(String URL, HashMap<String,String> params);
 
 
 

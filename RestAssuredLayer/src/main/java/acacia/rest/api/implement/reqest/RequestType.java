@@ -1,5 +1,6 @@
 package acacia.rest.api.implement.reqest;
 
+import acacia.rest.api.implement.response.ResponseType;
 import acacia.rest.api.interfaces.IHttpType;
 import io.restassured.response.Response;
 
@@ -10,19 +11,22 @@ import static io.restassured.RestAssured.given;
  * This is a wrapper of HTTP method.
  */
 
-public class HttpType implements IHttpType{
+public class RequestType implements IHttpType{
     public Response response;
+    public ResponseType responseType;
 
 
     @Override
-    public Response GetRequestWithQueryPara(String URL, HashMap<String, String> params) {
+    public ResponseType GetRequestWithQueryPara(String URL, HashMap<String, String> params) {
          response = given().queryParams(params).when().get(URL);
-        return response;
+         responseType = new ResponseType(response);
+         return responseType;
     }
 
     @Override
-    public Response PostRequestWithQueryPara(String URL, HashMap<String, String> params) {
+    public ResponseType PostRequestWithQueryPara(String URL, HashMap<String, String> params) {
         response = given().queryParams(params).when().post(URL);
-        return response;
+        responseType = new ResponseType(response);
+        return responseType;
     }
 }
