@@ -89,10 +89,10 @@ public class StartTestPractice {
         //response.getCookie("ELOQUA").isEmpty();
     }
 
-    @Test
+    //@Test
     public void test_8(){
         String url = base_url + "/dfml/service/lambdaApps";
-        Response response = RestAssured.given().log().all().parameter("username","tester").when().get(url);
+        Response response = RestAssured.given().log().all().param("username","tester").when().get(url);
         response.getBody().prettyPrint();
         Map<String,String> cookies = response.getCookies();
         System.out.println(cookies);
