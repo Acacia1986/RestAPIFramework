@@ -15,6 +15,8 @@ import static io.restassured.RestAssured.given;
 @Slf4j
 public class HttpPostRequestUtil {
 
+    private static String CONTENT_TYPE = "application/json";
+
 
     /**
      * Get the token from a post request
@@ -26,7 +28,7 @@ public class HttpPostRequestUtil {
 
         Response response = given()
                 .config(withRelaxedHttpsValid())
-                .contentType("application/json")
+                .contentType(CONTENT_TYPE)
                 .log().all()
                 .request()
                 .body(param)
@@ -48,7 +50,7 @@ public class HttpPostRequestUtil {
      */
     public static String getMessage(String ApiUrl, String Param){
         Response response = given().config(withRelaxedHttpsValid())
-                .contentType("application/json")
+                .contentType(CONTENT_TYPE)
                 .log().all()
                 .request()
                 .body(Param)
@@ -58,7 +60,27 @@ public class HttpPostRequestUtil {
         return  message;
     }
 
+    /**
+     * Get the response status code with post method
+     * @param apiUrl
+     * @param param
+     * @return
+     */
+    public static int getStatusCode(String apiUrl, String param){
+        Response response = given()
+                .config(withRelaxedHttpsValid())
+                .contentType(CONTENT_TYPE)
+                .log().all()
+                .request()
+                .body(param)
+                .when()
+                .post(apiUrl);
+        int statusCode = response.jsonPath().get("status_code");
+        return statusCode;
+    }
 
+
+    
 
 
 
